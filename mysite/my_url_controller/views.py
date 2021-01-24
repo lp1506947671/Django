@@ -11,7 +11,11 @@ def index(request):
     return render(request, "index.html", {"now_time": now_time})
 
 
-# /my_url_controller/2003/03/03/1
-def my_url_controller(request, year, month, day):
+# re_path:简单的路由配置 /my_url_controller/2003/03/03
+def my_url_controller_demo1(request, year, month):
+    return HttpResponse("re_path:简单的路由配置 %s:%s" % (year, month))
 
-    return HttpResponse(year+month+day)
+
+# re_path:有名分组 /my_url_controller/2003/03/1
+def my_url_controller_demo2(request, year, month, day):
+    return HttpResponse("re_path:有名分组 year=%s:month=%s:day=%s" % (year, month, day))

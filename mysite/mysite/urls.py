@@ -22,5 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("", views.index),
     # re_path:简单的路由配置
-    re_path("my_url_controller/([0-9]{4})/([0-9]{2})/([0-9]+)", views.my_url_controller)
+    re_path("^my_url_controller/([0-9]{4})/([0-9]{2})/$", views.my_url_controller_demo1),
+    # re_path:有名分组
+    re_path("^my_url_controller/(?P<year>[0-9]{4})/(?P<month>[0-9]{2})/(?P<day>[0-9]+)/$", views.my_url_controller_demo2),
 ]
