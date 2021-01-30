@@ -2,6 +2,9 @@
 # -*- coding: utf-8 -*-
 from django.urls import path
 
-urlpatterns = [
+from my_url_controller import views
 
+app_name = "my_url_controller1"
+urlpatterns = [
+    path("reserve/", views.my_url_controller_reverse, name="reverse")
 ]

@@ -35,7 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'my_url_controller.apps.MyUrlControllerConfig'
+    'my_url_controller.apps.MyUrlControllerConfig',
+    'my_url_controller2.apps.MyUrlController2Config'
 ]
 
 MIDDLEWARE = [
