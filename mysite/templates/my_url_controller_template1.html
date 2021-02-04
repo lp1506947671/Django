@@ -1,0 +1,20 @@
+
+变量:
+1.{{ variate1 }}<br>
+2.length:{{ variate1|length }}<br>
+3.default:{{ variate2|default("nothing") }}<br>
+4.list1[0]:{{ list1[0] }}<br>
+5.filesizeformat :{{ filesize|filesizeformat }}<br>
+6.slice:{{ variate_slice|slice(3) }}<br>
+7.truncatechars:{{ variate_slice|truncate(5) }}<br>
+
+标签:<br>
+1.for标签:{% for foo in list1 %}索引:值{{ loop.index }}:{{ foo }}{% endfor %}<br>
+2.for...else标签: {% for foo1 in list2 %} {{ foo1 }} {% else %}no{% endfor %}<br>
+3.if标签: {% if demo2 %}ok{% else %}no{% endif %}<br>
+4.with标签:{% with %}{% set a=demo3.demo3_1 %}{{ a }}{% endwith %}<br>
+
+6.自定义标签:<br>
+
+
+
