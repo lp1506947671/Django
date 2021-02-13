@@ -19,4 +19,10 @@ def index(request):
     # print(Book.objects.filter(title__icontains="H"))
     # print(Book.objects.filter(price__in=[100, 200]))
     # print(Book.objects.filter(pub_date__year=2012,pub_date__month=12))
+
+    # 4.修改,删除操作
+    Book.objects.create(title="go宝典", state=True, price=300, publish="人民出版社", pub_date="2012-12-12")
+    Book.objects.filter(price__exact=300).update(title="php")
+    Book.objects.filter(title="php").delete()
+
     return HttpResponse("ok")
