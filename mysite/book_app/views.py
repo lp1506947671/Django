@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from book_app.models import BookApp
 
 
@@ -14,7 +14,7 @@ def add_book(request):
         date = request.POST.get("date")
         publish = request.POST.get("publish")
         book_obj = BookApp.objects.create(title=title, price=price, pub_date=date, publish=publish)
-        return HttpResponse("ok")
+        return redirect("/book_app/view/")
 
     return render(request, "add_book.html")
 
@@ -22,3 +22,8 @@ def add_book(request):
 def view_book(request):
     book_list = BookApp.objects.all()
     return render(request, "view_book.html", context={"book_list": book_list})
+
+
+def delete_book(request, id):
+    BookApp.objects.filter(id__exact=id).delete()
+    return redirect("/book_app/view/")
