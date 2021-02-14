@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'my_url_controller',
     'my_url_controller2',
-    "my_model"
+    "my_model",
+    "book_app"
 
 ]
 
@@ -153,3 +154,4 @@ LOGGING = {
         },
     }
 }
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]

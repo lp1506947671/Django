@@ -31,5 +31,6 @@ urlpatterns = [
     path("my_url_controller1/", include("my_url_controller.urls", namespace="my_url_controller1")),
 
     path("my_url_controller2/", include("my_url_controller2.urls", namespace="my_url_controller2")),
-    path("my_model/", include("my_model.urls"))
+    path("my_model/", include("my_model.urls")),
+    path("book_app/",include("book_app.urls"))
 ]
