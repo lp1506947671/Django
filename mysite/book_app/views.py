@@ -17,3 +17,8 @@ def add_book(request):
         return HttpResponse("ok")
 
     return render(request, "add_book.html")
+
+
+def view_book(request):
+    book_list = BookApp.objects.all()
+    return render(request, "view_book.html", context={"book_list": book_list})
