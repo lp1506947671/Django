@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add_Book</title>
+    <link rel="stylesheet" href="/static/dist/css/bootstrap.css">
+    <style>
+        .container {
+            margin-top: 100px;
+        }
+        .btn{
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<h3>编辑书籍</h3>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <form action="" method="post" >
+            <div>
+                <label for="">书籍名称</label>
+                <input type="text" class="form-control" name="title" value="{{ book_object.title  }}">
+            </div>
+            <div>
+                <label for="">价格</label>
+                <input type="text" class="form-control" name="price" value="{{ book_object.price }}">
+            </div>
+            <div>
+                <label for="">出版日期</label>
+                <input type="date" class="form-control" name="date" value="{{ book_object.pub_date }}">
+            </div>
+            <div>
+                <label for="">出版社</label>
+                <input type="text" class="form-control" name="publish" value="{{ book_object.publish }}">
+            </div>
+               <input type="submit" class="btn btn-success pull-right" >
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        </form>
+
+        </div>
+
+
+    </div>
+</div>
+</body>
+</html>

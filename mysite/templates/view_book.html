@@ -29,7 +29,7 @@
                     <td> {{ book.pub_date }}</td>
                     <td> {{ book.publish }}</td>
                     <td><a href="/book_app/delete/{{ book.pk }}" class="btn btn-danger" >删除</a></td>
-                    <td><a href="" class="btn btn-info">编辑</a></td>
+                    <td><a href="/book_app/edit/{{ book.pk }}" class="btn btn-info">编辑</a></td>
                 </tr>
                 {% endfor %}
             </table>

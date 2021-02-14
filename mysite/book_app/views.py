@@ -21,9 +21,24 @@ def add_book(request):
 
 def view_book(request):
     book_list = BookApp.objects.all()
+
     return render(request, "view_book.html", context={"book_list": book_list})
 
 
 def delete_book(request, id):
     BookApp.objects.filter(id__exact=id).delete()
     return redirect("/book_app/view/")
+
+
+def edit_book(request, id):
+    book_object = BookApp.objects.filter(id__exact=id).first()
+    if request.method == "POST":
+        title = request.POST.get("title")
+        price = request.POST.get("price")
+        date = request.POST.get("date")
+        publish = request.POST.get("publish")
+        BookApp.objects.filter(id__exact=id).update(title=title, price=price, pub_date=date,
+                                                    publish=publish)
+        return redirect("/book_app/view/")
+
+    return render(request, "edit_book.html", context={"book_object": book_object})
