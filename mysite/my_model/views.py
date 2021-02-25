@@ -1,6 +1,7 @@
+from django.db.models import Avg, Max, Min, Count
 from django.shortcuts import render
 from django.http import HttpResponse
-from my_model.models import Book, Publish, Author
+from my_model.models import Book, Publish, Author, AuthorDetail, Emp
 
 
 # Create your views here.
@@ -39,10 +40,13 @@ def index(request):
     # auth_obj1 = Author.objects.create(name="Jason1", age=16, authorDetail_id=1)
     # auth_obj2 = Author.objects.create(name="Jason2", age=17, authorDetail_id=2)
     # book_object = Book.objects.filter(title="红楼梦").first()
+    # print(type(book_object.publish))
+    # print(type(book_object.publish_id))
     # book_object.authors.add(auth_obj1, auth_obj2)
 
     # 绑定方式二
     # book_object = Book.objects.get(title="三国演义")
+    # print(book_object.authors.all())
     # auth_obj1 = Author.objects.get(name="Jason1")
     # auth_obj2 = Author.objects.get(name="Jason2")
     # book_object.authors.add(*[auth_obj1, auth_obj2])
@@ -51,5 +55,56 @@ def index(request):
     # book_object = Book.objects.get(title="三国演义")
     # book_object.authors.remove(*[1, 2])
     # book_object.authors.clear()
+    # ------------基于对象的跨表查询---------------
+    # ------------基于对象的跨表查询一对一多--------------
+    # 正向
+    # a = Book.objects.get(title="西游记")
+    # print(a.publish)
+    # 反向
+    # b = Publish.objects.get(name="湖南出版社")
+    # print(b.book_set.all())
+    # ------------基于对象的跨表查询一对一--------------
+    # 正向
+    # a = Author.objects.get(name="Jason1")
+    # print(a.authorDetail.addr)
+    # 反向
+    # b = AuthorDetail.objects.get(addr="a")
+    # print(b.author.name)
+    # ------------基于对象的跨表查询一对多--------------
+    # 正向
+    # a = Author.objects.get(name="Jason1")
+    # print(a.authorDetail.addr)
+    # 反向
+    # b = AuthorDetail.objects.get(addr="a")
+    # print(b.author.name)
+    # a = Publish.objects.filter(name="人民出版社").values("book__title", "book__price")
+    # print(a)
+    # a = Book.objects.filter(publish__name="人民出版社").values("title", "price")
+    # print(a)
+    # a = Book.objects.filter(authors__name="Jason1").values("title")
+    # print(a)
+    # a = Author.objects.filter(name="Jason1").values("authorDetail__telephone")
+    # print(a)
+    # a = AuthorDetail.objects.filter(author__name="Jason1").values("telephone")
+    # print(a)
+    # a = Book.objects.filter(publish__name="人民出版社").values("title", "authors__name")
+    # print(a)
+    # a = Publish.objects.filter(name="人民出版社").values("book__title", "book__authors__name")
+    # print(a)
+    # a = Author.objects.filter(book__publish__name="人民出版社").values("book__title", "name")
+    # print(a)
+    # a = Book.objects.filter(authors__authorDetail__addr__startswith="a").values("title")
+    # print(a)
+    # a = Author.objects.filter(authorDetail__addr__startswith="a").values("book__title", "book__publish__name")
+    # print(a)
+    # ret = Book.objects.all().aggregate(Avg("price"), Max("price"), Min("price"))
+    # print(ret)
 
+    # ret = Publish.objects.values("id").annotate(c=Count('book__title')).values_list("name", "c")
+    # print(ret)
+    # ret = Book.objects.values("authors").annotate(book_price=Max("price")).values("authors__name", "book_price")
+    # print(ret)
+    # ret = Author.objects.values("pk").annotate(book_price=Max("book__price")).values("name", "book_price")
+    ret = Book.objects.values("id").annotate(author_count=Count("authors")).values("title", "author_count")
+    print(ret)
     return HttpResponse("ok")
