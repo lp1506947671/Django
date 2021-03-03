@@ -6,6 +6,7 @@ from books_app import views
 
 app_name = "books_app"
 urlpatterns = [
-    path("", views.books),
-    # re_path(r"delete/(\d+)", views.delete_book),
+    re_path(r"add/", views.add_books),
+    re_path(r"view/", views.view_books),
+    re_path(r'(\d+)/([0-9a-zA-Z]{1,20})/change/$', views.change_book)
 ]

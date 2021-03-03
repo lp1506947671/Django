@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查看书籍</title>
+    <link rel="stylesheet" href="/static/dist/css/bootstrap.css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>书籍名称</th>
+                    <th>价格</th>
+                    <th>出版日期</th>
+                    <th>出版社</th>
+                    <th>作者</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for book  in book_list %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.price }}</td>
+                    <td>{{ book.pub_date }}</td>
+                    <td>{{ book.publish__name }}</td>
+                    <td>{{ book.authors__name }}</td>
+                    <td>
+                        <a href="/books_app/{{ book.id }}/{{ book.authors__name }}/change" class="btn btn-warning">编辑</a>
+                        <a href="/books_app/{{ book.id }}/delete" class="btn btn-danger">删除</a>
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
