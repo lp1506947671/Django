@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax</title>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+</head>
+<body>
+<div>
+    <h3>示例1 实现两个数值的计算 </h3>
+    <input type="text" id="n1" value="">+
+    <input type="text" id="n2" value="">=
+    <input type="text" id="n3" value="">
+    <button class="cal">计算</button>
+</div>
+
+<div>
+    <h3>示例2 登录验证</h3>
+    <form>
+        用户名 <input type="text" id="user">
+        密码 <input type="password" id="pwd">
+        <input type="button" value="submit" class="login_btn"><span class="error"></span>
+    </form>
+</div>
+
+
+</body>
+<script>
+    window.onload = function () {
+        {# 示例1 实现两个数值的计算 #}
+        $(".cal").click(
+            function () {
+                $.ajax({
+                    url: '',
+                    type: "post",
+                    data: {
+                        "n1": $("#n1").val(),
+                        "n2": $("#n2").val(),
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        $("#n3").val(data);
+                    }
+                })
+            }
+        );
+
+        {# 示例2 登录验证   #}
+        $(".login_btn").click(function () {
+            $.ajax({
+                url: "/books_app/login",
+                type: "post",
+                data: {
+                    "user": $("#user").val(),
+                    "pwd": $("#pwd").val(),
+                },
+                success: function (data) {
+                    console.log(typeof data);
+                    let user_data = JSON.parse(data);
+                    console.log(typeof user_data );
+                    if (user_data.user) {
+                        location.href = "http://www.baidu.com"
+                    } else {
+                        $(".error").html(user_data .msg).css({"color": "red"})
+                    }
+                }
+            })
+        })
+
+    }
+
+</script>
+</html>
