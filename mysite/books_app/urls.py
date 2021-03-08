@@ -12,5 +12,6 @@ urlpatterns = [
     re_path(r'(\d+)/([0-9a-zA-Z]{1,20})/change/$', views.change_book),
     path('', views.digit_add),
     path('login', views.login),
-    path("file_form", views.file_put)
+    path("file_form", views.file_put),
+    path("paginator", views.paginator)
 ]

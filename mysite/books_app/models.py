@@ -5,3 +5,8 @@ from django.db import models
 class User(models.Model):
     name = models.CharField(max_length=32)
     pwd = models.CharField(max_length=32)
+
+
+class Book(models.Model):
+    title = models.CharField(max_length=32)
+    price = models.DecimalField(decimal_places=2, max_digits=8)

@@ -1,10 +1,12 @@
 import json
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
 from django.shortcuts import render
 
 from books_app.models import User
 from my_model.models import Book, Author, Publish
+from books_app.models import Book as Books
 
 
 # Create your views here.
@@ -77,3 +79,52 @@ def file_put(request):
                 f.write(line)
         return HttpResponse("ok")
     return render(request, "file_put.html")
+
+
+def paginator(request):
+    a = Books.objects.all().order_by("pk")
+    paginator1 = Paginator(a, 3)
+    print("数据总数:", paginator1.count)
+    print("总页数:", paginator1.num_pages)
+    print("页码列表:", paginator1.page_range)
+    page1 = paginator1.page(1)
+    print("下一页数:", page1.next_page_number())
+    print("下一页", page1.has_next())
+    page2 = paginator1.page(2)
+    print("上一页数:", page2.previous_page_number())
+    print("上一页:", page2.has_previous())
+
+    # 抛错
+    # page=paginator.page(12)   # error:EmptyPage
+    # page=paginator.page("z")   # error:PageNotAnInteger
+
+    current_page_num = int(request.GET.get("page", 1))
+    try:
+        current_page = paginator1.page(current_page_num)
+        print("object_list", current_page.object_list)
+    except EmptyPage as e:
+        current_page = paginator1.page(1)
+    except PageNotAnInteger as e:
+        current_page = paginator1.page(paginator1.count)
+
+    # 需求:总页数54,使其永远只显示11页
+    if paginator1.num_pages > 11:
+
+        if current_page_num - 5 < 1:
+            page_range = range(1, 12)
+        elif current_page_num + 5 > paginator1.num_pages:
+            page_range = range(paginator1.num_pages - 10, paginator1.num_pages + 1)
+
+        else:
+            page_range = range(current_page_num - 5, current_page_num + 6)
+    else:
+        page_range = paginator1.page_range
+
+    # page_range = paginator1.page_range
+    dict1 = {
+        "page_range": page_range,
+        "current_page_num": current_page_num,
+        "current_page": current_page,
+    }
+
+    return render(request, "paginator.html", dict1)
