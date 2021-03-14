@@ -17,7 +17,19 @@
 <div class="col-md-6 col-md-offset-3">
     <form action="" method="post">
         {% csrf_token %}
-        {{ user.as_p }}
+        {% for field in user %}
+            <div class="form-group">
+                <label for="">{{ field.label }}</label>
+                {{ field }}
+
+            <span class="pull-right text-danger">
+                          {% if field.id_for_label == 'id_r_pwd' %}
+                          {{ clean_error.0 }}
+                          {% endif %}
+                          {{ field.errors.0 }}
+            </span>
+            </div>
+        {% endfor %}
         <input type="submit">
     </form>
 
