@@ -5,6 +5,8 @@ from django.db import models
 class User(models.Model):
     name = models.CharField(max_length=32)
     pwd = models.CharField(max_length=32)
+    email = models.EmailField(blank=True)
+    tel = models.CharField(max_length=32, blank=True)
 
 
 class Book(models.Model):

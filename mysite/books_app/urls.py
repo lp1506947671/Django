@@ -13,5 +13,6 @@ urlpatterns = [
     path('', views.digit_add),
     path('login', views.login),
     path("file_form", views.file_put),
-    path("paginator", views.paginator)
+    path("paginator", views.paginator),
+    path("register", views.register)
 ]

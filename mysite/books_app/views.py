@@ -128,3 +128,37 @@ def paginator(request):
     }
 
     return render(request, "paginator.html", dict1)
+
+
+from django import forms
+
+
+class UserForm(forms.Form):
+    name = forms.CharField(max_length=32)
+    pwd = forms.CharField(widget=forms.PasswordInput())
+    r_pwd = forms.CharField(widget=forms.PasswordInput())
+    email = forms.EmailField()
+    tel = forms.CharField(max_length=32)
+
+
+def register(request):
+    """
+    创建request.POST
+    is_valid
+    cleaned_data
+    errors
+    """
+    if request.method == "POST":
+        user = UserForm(request.POST)
+        if user.is_valid():
+            print(user.cleaned_data)
+        else:
+            print(user.cleaned_data)
+            print(user.errors)
+            print(user.errors.get("name"))
+            print(type(user.errors.get("name")))
+            print(user.errors.get("name")[0])
+        return HttpResponse('OK')
+    user = UserForm()
+
+    return render(request, "register.html", {"user": user})
