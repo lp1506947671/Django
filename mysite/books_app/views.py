@@ -2,7 +2,7 @@ import json
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from books_app.models import User
 from my_model.models import Book, Author, Publish
@@ -176,3 +176,34 @@ def register(request):
     user = UserForm()
 
     return render(request, "register.html", {"user": user})
+
+
+import datetime
+
+
+def login(request):
+    if request.method == "POST":
+        user = request.POST.get("user")
+        pwd = request.POST.get("pwd")
+        user = User.objects.filter(name=user, pwd=pwd).first()
+        if user:
+            response = HttpResponse("登录成功!")
+            response.set_cookie("is_login", True)
+            response.set_cookie("username", user.name)
+            return response
+
+    return render(request, "login.html")
+
+
+def index(request):
+    is_login = request.COOKIES.get("is_login")
+    if is_login:
+        username = request.COOKIES.get("username")
+        now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        last_time = request.COOKIES.get("last_visit_time", "")
+        response = render(request, "index.html", {"username": username, "last_time": last_time, "now_time": now})
+        response.set_cookie("last_visit_time", now)
+        return response
+
+    else:
+        return redirect("/login/")
