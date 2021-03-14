@@ -132,13 +132,15 @@ def paginator(request):
 
 from django import forms
 
+wid_01 = forms.TextInput(attrs={"class": "form-control"})
+
 
 class UserForm(forms.Form):
-    name = forms.CharField(max_length=32)
-    pwd = forms.CharField(widget=forms.PasswordInput())
-    r_pwd = forms.CharField(widget=forms.PasswordInput())
-    email = forms.EmailField()
-    tel = forms.CharField(max_length=32)
+    name = forms.CharField(max_length=32, label="用户名", widget=wid_01)
+    pwd = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control"}), label="密码")
+    r_pwd = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control"}), label="确认密码")
+    email = forms.EmailField(label="邮件", widget=wid_01)
+    tel = forms.CharField(max_length=32, label="手机号码", widget=wid_01)
 
 
 def register(request):
