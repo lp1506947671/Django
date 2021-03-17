@@ -189,7 +189,7 @@ def login(request):
         if user:
             response = HttpResponse("登录成功!")
             response.set_cookie("is_login", True)
-            response.set_cookie("username", user.name)
+            response.set_cookie("username", user.name, path="/books_app/index")
             return response
 
     return render(request, "login.html")
@@ -207,3 +207,53 @@ def index(request):
 
     else:
         return redirect("/login/")
+
+
+def login_session(request):
+    """
+   实现session的增加和更新
+   if request.COOKIE.get("sessionid"):
+         则sessionid保持不变,session_data数据更新
+   else:
+        1.则生成随机字符串sessionid
+        2设置cookie,response.set_cookie("sessionid",ltv8zy1kh5lxj1if1fcs2pqwodumr45t)
+        3在django—session表中创建一条记录
+    """
+
+    if request.method == "POST":
+        user = request.POST.get("user")
+        pwd = request.POST.get("pwd")
+        user = User.objects.filter(name=user, pwd=pwd).first()
+        if user:
+            now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            request.session["is_login"] = True
+            request.session["username"] = user.name
+            request.session["last_visit_time"] = now
+        return HttpResponse("登录成功!")
+    return render(request, "login.html")
+
+
+def index_session(request):
+    """
+    实现session的查询
+    1.request.COOKIE.get("sessionid")
+    2.django-session表中过滤纪录
+    3.obj.session_data.get("is_login")
+    """
+    is_login = request.session.get("is_login")
+    if not is_login:
+        return redirect("/login_session/")
+    username = request.session.get("username")
+    last_visit_time = request.session.get("last_visit_time")
+    return render(request, "index.html", {"username": username, "last_visit_time": last_visit_time})
+
+
+def logout(request):
+    """
+    实现session的删除
+    1.random_str=request.COOKIE.get("sessionid")
+    2.django_session.objects.filter(session-key=randon_str).delete()
+    3.response.delete_cookie("sessionid",random_str_str)
+    """
+    request.session.flush()
+    return redirect("/login/")

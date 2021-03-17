@@ -16,5 +16,8 @@ urlpatterns = [
     path("paginator", views.paginator),
     path("register", views.register),
     path("login", views.login),
-    path("index", views.index)
+    path("index", views.index),
+    path("login_session", views.login_session),
+    path("index_session", views.index_session),
+
 ]
