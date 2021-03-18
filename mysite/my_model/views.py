@@ -1,11 +1,12 @@
+from django.contrib import auth
 from django.db.models import Avg, Max, Min, Count
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from my_model.models import Book, Publish, Author, AuthorDetail, Emp
 
 
 # Create your views here.
-def index(request):
+def index1(request):
     # 1.添加表记录
     # book_obj = Book.objects.create(title="python宝典", state=True, price=100, publish="苹果出版社", pub_date="2012-12-12")
     # book_obj1 = Book.objects.create(title="go宝典", state=True, price=200, publish="人民日报出版社", pub_date="2012-12-12")
@@ -108,3 +109,19 @@ def index(request):
     ret = Book.objects.values("id").annotate(author_count=Count("authors")).values("title", "author_count")
     print(ret)
     return HttpResponse("ok")
+
+
+def login(request):
+    if request.method == "POST":
+        user = request.POST.get("user")
+        pwd = request.POST.get("pwd")
+        user = auth.authenticate(username=user, password=pwd)
+        if user:
+            auth.login(request, user)
+            next_url = request.GET.get("next", "/my_model/index")
+            return redirect(next_url)
+    return render(request, 'my_model/login.html')
+
+
+def index(request):
+    return render(request, "my_model/index.html")
