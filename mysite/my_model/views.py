@@ -1,4 +1,5 @@
 from django.contrib import auth
+from django.contrib.auth.models import User
 from django.db.models import Avg, Max, Min, Count
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -130,3 +131,12 @@ def index(request):
 def logout(request):
     auth.logout(request)
     return redirect("/my_model/login")
+
+
+def reg(request):
+    if request.method == "POST":
+        user = request.POST.get("user")
+        pwd = request.POST.get("pwd")
+        user = User.objects.create_user(username=user, password=pwd)
+        return redirect("/my_model/login")
+    return render(request, "my_model/reg.html")
