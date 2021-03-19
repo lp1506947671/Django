@@ -125,3 +125,8 @@ def login(request):
 
 def index(request):
     return render(request, "my_model/index.html")
+
+
+def logout(request):
+    auth.logout(request)
+    return redirect("/my_model/login")
