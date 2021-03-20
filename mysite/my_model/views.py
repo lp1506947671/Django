@@ -1,4 +1,5 @@
 from django.contrib import auth
+
 from django.contrib.auth.models import User
 from django.db.models import Avg, Max, Min, Count
 from django.shortcuts import render, redirect
@@ -112,6 +113,9 @@ def index1(request):
     return HttpResponse("ok")
 
 
+from django.contrib.auth.decorators import login_required
+
+
 def login(request):
     if request.method == "POST":
         user = request.POST.get("user")
@@ -140,3 +144,8 @@ def reg(request):
         user = User.objects.create_user(username=user, password=pwd)
         return redirect("/my_model/login")
     return render(request, "my_model/reg.html")
+
+
+@login_required
+def order(request):
+    return render(request, "my_model/order.html")
