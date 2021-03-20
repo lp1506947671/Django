@@ -11,5 +11,6 @@ urlpatterns = [
     path("index", views.index),
     path("logout", views.logout),
     path("reg", views.reg),
-    path("order", views.order)
+    path("order", views.order),
+    path("my_middle", views.my_middle)
 ]

@@ -149,3 +149,8 @@ def reg(request):
 @login_required
 def order(request):
     return render(request, "my_model/order.html")
+
+
+def my_middle(request):
+    print("views")
+    return HttpResponse("ok")
