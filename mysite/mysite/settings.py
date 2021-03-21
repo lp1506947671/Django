@@ -159,3 +159,4 @@ LOGGING = {
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 LOGIN_URL = "/my_model/login"
+WHITE_LIST = ["/", "/my_model/login", "/my_model/reg", "/my_model/logout"]

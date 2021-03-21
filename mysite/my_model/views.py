@@ -146,7 +146,6 @@ def reg(request):
     return render(request, "my_model/reg.html")
 
 
-@login_required
 def order(request):
     return render(request, "my_model/order.html")
 
