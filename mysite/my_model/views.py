@@ -153,4 +153,5 @@ def order(request):
 
 def my_middle(request):
     print("views")
+    raise ValueError("exception 中断")
     return HttpResponse("ok")
