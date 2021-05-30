@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'my_url_controller2',
     "my_model",
     "book_app",
-    "books_app"
+    "books_app",
+    "students",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -51,7 +53,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'my_model.my_middle.MyMiddle1',
-    "my_model.my_middle.MyMiddle2"
+    "my_model.my_middle.MyMiddle2",
+
 ]
 
 ROOT_URLCONF = 'mysite.urls'
