@@ -34,5 +34,5 @@ urlpatterns = [
     path("my_model/", include("my_model.urls")),
     path("book_app/", include("book_app.urls")),
     path("books_app/", include("books_app.urls")),
-    path("students/", include("students.urls"))
+    path("students/", include("students.urls")),
 ]
