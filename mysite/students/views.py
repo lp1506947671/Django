@@ -24,6 +24,19 @@ class StudentView(View):
         print(request.body)
         data = json.loads(request.body)
         serializer = StudentSerializer(data=data)
-        print(f"成功:{serializer.is_valid()}")
+        print(f"成功:{serializer.is_valid(raise_exception=True)}")
         print(f"失败:{serializer.errors}")
-        return HttpResponse("ok")
+        data=serializer.save()
+        return HttpResponse("生成新数据成功")
+
+    def put(self, request):
+        print(request.body)
+        data = json.loads(request.body)
+        put_id = data.get("id")
+        student = Student.objects.get(pk=put_id)
+        # 使用partial参数来允许部分字段更新,即使存在required字段没有提交
+        serializer = StudentSerializer(instance=student, data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        # save中传递的关键字参数在create,和update方法中也可以获取
+        serializer.save()
+        return HttpResponse("更新完成")
