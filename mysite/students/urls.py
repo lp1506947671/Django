@@ -4,7 +4,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("student/", views.StudentView.as_view())
+    path("student/", views.Student2ViewSet.as_view())
 ]
 # from rest_framework.routers import DefaultRouter
 # router = DefaultRouter()

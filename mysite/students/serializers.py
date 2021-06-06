@@ -4,6 +4,18 @@ from rest_framework import serializers
 from .models import Student
 
 
+class StudentModel2Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = ("id", "name", "sex", "age", "class_num")
+        read_only_fields = ('id',)
+        extra_kwargs = {
+            "id": { "required": True},
+            "name": {"required": True},
+            "age": {"max_value": 60, "required": True}
+        }
+
+
 class StudentModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student

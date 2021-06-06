@@ -5,12 +5,28 @@ from django.views import View
 from django.http.response import JsonResponse, HttpResponse
 from rest_framework.viewsets import ModelViewSet
 from .models import Student
-from .serializers import StudentModelSerializer, StudentSerializer
+from .serializers import StudentModelSerializer, StudentSerializer, StudentModel2Serializer
 
 
 class StudentViewSet(ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentModelSerializer
+
+
+class Student2ViewSet(View):
+    def get(self, request):
+        student = Student.objects.all()
+        serializer = StudentModel2Serializer(instance=student, many=True)
+        print(serializer.data)
+        return JsonResponse(serializer.data, safe=False)
+
+    def post(self, request):
+        print(request.body)
+        data = json.loads(request.body)
+        serializer = StudentModel2Serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return HttpResponse("ok")
 
 
 class StudentView(View):
@@ -26,7 +42,7 @@ class StudentView(View):
         serializer = StudentSerializer(data=data)
         print(f"成功:{serializer.is_valid(raise_exception=True)}")
         print(f"失败:{serializer.errors}")
-        data=serializer.save()
+        data = serializer.save()
         return HttpResponse("生成新数据成功")
 
     def put(self, request):
