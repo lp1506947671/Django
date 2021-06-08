@@ -3,10 +3,10 @@ import json
 # Create your views here.
 from django.views import View
 from django.http.response import JsonResponse, HttpResponse
-from rest_framework import status, renderers
-from rest_framework.request import Request
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
 from rest_framework.viewsets import ModelViewSet
 from .models import Student
 from .serializers import StudentModelSerializer, StudentSerializer, StudentModel2Serializer
@@ -58,7 +58,7 @@ class StudentView(View):
         serializer.is_valid(raise_exception=True)
         # save中传递的关键字参数在create,和update方法中也可以获取
         serializer.save()
-        return Response()
+        return Response("ok")
 
 
 class Student3ViewSet(APIView):
@@ -86,3 +86,39 @@ class Student3ViewSet(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return HttpResponse("ok")
+
+
+class Student4ViewSet(GenericAPIView):
+    serializer_class = StudentModel2Serializer
+    queryset = Student.objects.all()
+
+    def get_serializer_class(self):
+        if self.request.method.lower() == "get":
+            return StudentModelSerializer
+        else:
+            return StudentModel2Serializer
+
+    def get(self, request):
+        serializer = self.get_serializer(instance=self.get_object(), many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data, context={})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
+
+class Student5ViewSet(GenericAPIView):
+    serializer_class = StudentModelSerializer
+    queryset = Student.objects.all()
+
+    def get(self, request, pk):
+        serializer = self.get_serializer(instance=self.queryset.get(pk=pk))
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        serializer = self.get_serializer(instance=self.get_object(), data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
