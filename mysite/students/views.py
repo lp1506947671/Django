@@ -4,9 +4,12 @@ import json
 from django.views import View
 from django.http.response import JsonResponse, HttpResponse
 from rest_framework import status
+from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, \
+    DestroyModelMixin
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView, \
+    DestroyAPIView
 from rest_framework.viewsets import ModelViewSet
 from .models import Student
 from .serializers import StudentModelSerializer, StudentSerializer, StudentModel2Serializer
@@ -122,3 +125,42 @@ class Student5ViewSet(GenericAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+
+
+# ----------------------5个视图扩展类 ----------------------
+
+class Student6ModelMixin(GenericAPIView, ListModelMixin, CreateModelMixin):
+    serializer_class = StudentModelSerializer
+    queryset = Student.objects.all()
+
+    def get(self, request):
+        """获取多条数据"""
+        return self.list(request)
+
+    def post(self, request):
+        return self.create(request)
+
+
+class Student7ModelMixin(GenericAPIView, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin):
+    serializer_class = StudentModelSerializer
+    queryset = Student.objects.all()
+
+    def get(self, request, pk):
+        return self.retrieve(request, pk)
+
+    def put(self, request, pk):
+        return self.update(request, pk)
+
+    def delete(self, request, pk):
+        return self.destroy(request, pk)
+
+
+# ----------------------5个GenericAPIView的视图子类集----------------------
+class Student8ModelMixin(ListAPIView, CreateAPIView):
+    serializer_class = StudentModelSerializer
+    queryset = Student.objects.all()
+
+
+class Student9ModelMixin(RetrieveAPIView, UpdateAPIView, DestroyAPIView):
+    serializer_class = StudentModelSerializer
+    queryset = Student.objects.all()
