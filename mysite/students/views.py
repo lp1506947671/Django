@@ -10,6 +10,7 @@ from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveMode
 from rest_framework.permissions import AllowAny, BasePermission,  IsAuthenticated
 
 from rest_framework.response import Response
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle, ScopedRateThrottle
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView, ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView, \
     DestroyAPIView
@@ -213,11 +214,13 @@ class Student12APIViewSet(ModelViewSet):
 
 # ReadOnlyModelViewSet
 class Student13APIViewSet(ReadOnlyModelViewSet):
+    throttle_classes = (AnonRateThrottle,)
     serializer_class = StudentModelSerializer
     queryset = Student.objects.all()
 
 
 class Student14APIViewSet(ModelViewSet):
+    throttle_classes = (UserRateThrottle,)
     serializer_class = StudentModelSerializer
     queryset = Student.objects.all()
     permission_classes = [IsAuthenticated]
@@ -230,6 +233,8 @@ class CustomPermission(BasePermission):
 
 
 class Student15APIViewSet(ModelViewSet):
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope="jason"
     serializer_class = StudentModelSerializer
     queryset = Student.objects.all()
     permission_classes = [CustomPermission]

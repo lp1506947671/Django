@@ -168,4 +168,14 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication'
     ],
+    "DEFAULT_THROTTLE_CLASSES":[
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+        'rest_framework.throttling.ScopedRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES':{
+        'anon':'2/minute',
+        'user':'4/minute',
+        'jason':'3/minute'
+    }
 }
