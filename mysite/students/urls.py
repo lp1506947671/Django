@@ -24,7 +24,10 @@ urlpatterns = [
 
 ]
 from rest_framework import routers
+
 routers = routers.SimpleRouter()
-routers.register("student12", views.Student12APIViewSet,"student12_1")
+routers.register("student12", views.Student12APIViewSet, "student12_1")
+routers.register("student14", views.Student14APIViewSet, "student14_1")
+routers.register("student15", views.Student15APIViewSet, "student15_1")
 print(routers.urls)
 urlpatterns += routers.urls

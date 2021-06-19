@@ -7,6 +7,8 @@ from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, \
     DestroyModelMixin
+from rest_framework.permissions import AllowAny, BasePermission,  IsAuthenticated
+
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView, ListAPIView, CreateAPIView, RetrieveAPIView, UpdateAPIView, \
@@ -213,3 +215,21 @@ class Student12APIViewSet(ModelViewSet):
 class Student13APIViewSet(ReadOnlyModelViewSet):
     serializer_class = StudentModelSerializer
     queryset = Student.objects.all()
+
+
+class Student14APIViewSet(ModelViewSet):
+    serializer_class = StudentModelSerializer
+    queryset = Student.objects.all()
+    permission_classes = [IsAuthenticated]
+
+
+class CustomPermission(BasePermission):
+    def has_permission(self, request, view):
+        if request.user and request.user.username == "xiaopanwye":
+            return True
+
+
+class Student15APIViewSet(ModelViewSet):
+    serializer_class = StudentModelSerializer
+    queryset = Student.objects.all()
+    permission_classes = [CustomPermission]

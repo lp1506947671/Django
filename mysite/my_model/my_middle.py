@@ -11,9 +11,9 @@ class MyMiddle1(MiddlewareMixin):
     def process_request(self, request):
         print("MyMiddle1 process_request ... ")
         if request.path in WHITE_LIST:
-            return None
+            return
         if request.user.is_authenticated:
-            return redirect("/my_model/login")
+            return
 
     def process_view(self, request, callback, callback_arg, callback_kwargs):
         print("MyMiddle1 process_view ... ")

@@ -26,7 +26,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -128,9 +127,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-hans'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -163,4 +162,10 @@ LOGGING = {
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 LOGIN_URL = "/my_model/login"
-WHITE_LIST = ["/", "/my_model/login", "/my_model/reg", "/my_model/logout"]
+WHITE_LIST = ["/", "/admin", "/my_model/login", "/my_model/reg", "/my_model/logout"]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication'
+    ],
+}
