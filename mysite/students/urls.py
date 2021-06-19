@@ -13,4 +13,18 @@ urlpatterns = [
     # ----------------------5个GenericAPIView的视图子类集----------------------
     path("student8/", views.Student8ModelMixin.as_view()),
     re_path(r"^student9/(?P<pk>\d+)/$", views.Student9ModelMixin.as_view()),
+    path("student10/", views.Student10APIViewSet.as_view({"get": "list"})),
+    re_path(r"^student10/(?P<pk>\d+)/$", views.Student10APIViewSet.as_view({"get": "get_one"})),
+    path("student11/", views.Student11APIViewSet.as_view({"get": "list"})),
+    re_path(r"^student11/(?P<pk>\d+)/$", views.Student11APIViewSet.as_view({"get": "retrieve"})),
+    # path("student12/", views.Student12APIViewSet.as_view({"get": "list"})),
+    # re_path(r"^student12/(?P<pk>\d+)/$", views.Student12APIViewSet.as_view({"get": "retrieve", "post": "create"})),
+    path("student13/", views.Student13APIViewSet.as_view({"get": "list", "post": "create"})),
+    re_path(r"^student13/(?P<pk>\d+)/$", views.Student13APIViewSet.as_view({"get": "retrieve"})),
+
 ]
+from rest_framework import routers
+routers = routers.SimpleRouter()
+routers.register("student12", views.Student12APIViewSet,"student12_1")
+print(routers.urls)
+urlpatterns += routers.urls

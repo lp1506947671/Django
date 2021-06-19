@@ -4,6 +4,7 @@ import json
 from django.views import View
 from django.http.response import JsonResponse, HttpResponse
 from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, \
     DestroyModelMixin
 from rest_framework.response import Response
@@ -162,5 +163,53 @@ class Student8ModelMixin(ListAPIView, CreateAPIView):
 
 
 class Student9ModelMixin(RetrieveAPIView, UpdateAPIView, DestroyAPIView):
+    serializer_class = StudentModelSerializer
+    queryset = Student.objects.all()
+
+
+# ----------------------常用的四个视图集----------------------
+from rest_framework.viewsets import ViewSet, GenericViewSet, ModelViewSet, ReadOnlyModelViewSet
+from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
+
+
+# ViewSet
+class Student10APIViewSet(ViewSet):
+
+    def list(self, request):
+        """获取多条数据"""
+        student_list = Student.objects.all()
+        serializer = StudentModelSerializer(instance=student_list, many=True)
+        return Response(serializer.data)
+
+    def get_one(self, request, pk):
+        student = Student.objects.get(pk=pk)
+        serializer = StudentModelSerializer(instance=student)
+        return Response(serializer.data)
+
+
+# GenericViewSet
+class Student11APIViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
+    serializer_class = StudentModelSerializer
+    queryset = Student.objects.all()
+
+
+# ModelViewSet
+class Student12APIViewSet(ModelViewSet):
+    serializer_class = StudentModelSerializer
+    queryset = Student.objects.all()
+
+    @action(methods=['get'], detail=True)
+    def login(self, request, pk):
+        return Response("测试数据login")
+
+    # detail为False 表示路径名格式应该为 router_stu/get_new_5/
+    @action(methods=['get'], detail=False)
+    def get_new_5(self, request):
+        """获取最新添加的5个学生信息"""
+        return Response("测试数据get_new_5")
+
+
+# ReadOnlyModelViewSet
+class Student13APIViewSet(ReadOnlyModelViewSet):
     serializer_class = StudentModelSerializer
     queryset = Student.objects.all()
