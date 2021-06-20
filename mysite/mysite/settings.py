@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "books_app",
     "students",
     "rest_framework",
+    'django_filters'
 ]
 
 MIDDLEWARE = [
@@ -177,5 +178,7 @@ REST_FRAMEWORK = {
         'anon':'2/minute',
         'user':'4/minute',
         'jason':'3/minute'
-    }
+    },
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',
+                                'rest_framework.filters.OrderingFilter')
 }

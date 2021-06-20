@@ -3,11 +3,14 @@ import json
 # Create your views here.
 from django.views import View
 from django.http.response import JsonResponse, HttpResponse
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
 from rest_framework import status
 from rest_framework.decorators import action
+
 from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, \
     DestroyModelMixin
-from rest_framework.permissions import AllowAny, BasePermission,  IsAuthenticated
+from rest_framework.permissions import AllowAny, BasePermission, IsAuthenticated
 
 from rest_framework.response import Response
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle, ScopedRateThrottle
@@ -220,10 +223,13 @@ class Student13APIViewSet(ReadOnlyModelViewSet):
 
 
 class Student14APIViewSet(ModelViewSet):
-    throttle_classes = (UserRateThrottle,)
     serializer_class = StudentModelSerializer
     queryset = Student.objects.all()
+    throttle_classes = (UserRateThrottle,)
     permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filter_fields = ("sex", "class_num")
+    ordering_fields = ['id']
 
 
 class CustomPermission(BasePermission):
@@ -234,7 +240,7 @@ class CustomPermission(BasePermission):
 
 class Student15APIViewSet(ModelViewSet):
     throttle_classes = [ScopedRateThrottle]
-    throttle_scope="jason"
+    throttle_scope = "jason"
     serializer_class = StudentModelSerializer
     queryset = Student.objects.all()
     permission_classes = [CustomPermission]
