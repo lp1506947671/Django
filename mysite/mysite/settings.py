@@ -169,16 +169,18 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication'
     ],
-    "DEFAULT_THROTTLE_CLASSES":[
+    "DEFAULT_THROTTLE_CLASSES": [
         'rest_framework.throttling.AnonRateThrottle',
         'rest_framework.throttling.UserRateThrottle',
         'rest_framework.throttling.ScopedRateThrottle',
     ],
-    'DEFAULT_THROTTLE_RATES':{
-        'anon':'2/minute',
-        'user':'4/minute',
-        'jason':'3/minute'
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '30/minute',
+        'user': '30/minute',
+        'jason': '30/minute'
     },
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',
-                                'rest_framework.filters.OrderingFilter')
+                                'rest_framework.filters.OrderingFilter'),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 1
 }

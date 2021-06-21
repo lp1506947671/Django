@@ -10,6 +10,7 @@ from rest_framework.decorators import action
 
 from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, \
     DestroyModelMixin
+from rest_framework.pagination import PageNumberPagination, LimitOffsetPagination
 from rest_framework.permissions import AllowAny, BasePermission, IsAuthenticated
 
 from rest_framework.response import Response
@@ -244,3 +245,24 @@ class Student15APIViewSet(ModelViewSet):
     serializer_class = StudentModelSerializer
     queryset = Student.objects.all()
     permission_classes = [CustomPermission]
+
+
+class StandardPageNumberPagination(PageNumberPagination):
+    # 默认每一页显示的数量
+    page_size = 2
+    page_size_query_param = "size"
+    max_page_size = 10
+    page_query_param = 'p'
+
+
+class StandardLimitOffsetPagination(LimitOffsetPagination):
+    # 默认每一页显示的数量
+    default_limit = 2
+    limit_query_param = "size"
+    offset_query_param = "start"
+
+
+class Student16APIViewSet(ModelViewSet):
+    serializer_class = StudentModelSerializer
+    queryset = Student.objects.all()
+    pagination_class = StandardLimitOffsetPagination
