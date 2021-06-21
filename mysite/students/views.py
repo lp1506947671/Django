@@ -1,6 +1,7 @@
 import json
 
 # Create your views here.
+from django.db import DataError
 from django.views import View
 from django.http.response import JsonResponse, HttpResponse
 from django_filters.rest_framework import DjangoFilterBackend
@@ -207,6 +208,7 @@ class Student12APIViewSet(ModelViewSet):
 
     @action(methods=['get'], detail=True)
     def login(self, request, pk):
+        raise DataError("数据库错误")
         return Response("测试数据login")
 
     # detail为False 表示路径名格式应该为 router_stu/get_new_5/
