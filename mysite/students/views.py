@@ -105,7 +105,7 @@ class Student4ViewSet(GenericAPIView):
     queryset = Student.objects.all()
 
     def get_serializer_class(self):
-        if self.request.method.lower() == "get":
+        if self.request and self.request.method.lower() == "get":
             return StudentModelSerializer
         else:
             return StudentModel2Serializer
@@ -203,11 +203,18 @@ class Student11APIViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
 
 # ModelViewSet
 class Student12APIViewSet(ModelViewSet):
+    """
+    list:
+    返回所有学生信息
+    create:
+    新建学生信息
+    """
     serializer_class = StudentModelSerializer
     queryset = Student.objects.all()
 
     @action(methods=['get'], detail=True)
     def login(self, request, pk):
+        "登录"
         raise DataError("数据库错误")
         return Response("测试数据login")
 

@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path, include
+from rest_framework.documentation import include_docs_urls
 
 from my_url_controller import views
 
 urlpatterns = [
+    path('docs/', include_docs_urls(title="站点页面标题")),
     path('admin/', admin.site.urls),
     path("", views.index),
     # re_path:简单的路由配置
@@ -35,4 +37,5 @@ urlpatterns = [
     path("book_app/", include("book_app.urls")),
     path("books_app/", include("books_app.urls")),
     path("drf/", include("students.urls")),
+
 ]

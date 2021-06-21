@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "books_app",
     "students",
     "rest_framework",
-    'django_filters'
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -163,8 +163,9 @@ LOGGING = {
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 LOGIN_URL = "/my_model/login"
-WHITE_LIST = ["/", "/admin", "/my_model/login", "/my_model/reg", "/my_model/logout"]
+WHITE_LIST = ["/", "/docs/", "/admin", "/my_model/login", "/my_model/reg", "/my_model/logout"]
 REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": 'rest_framework.schemas.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication'
@@ -183,6 +184,5 @@ REST_FRAMEWORK = {
                                 'rest_framework.filters.OrderingFilter'),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 1,
-    "EXCEPTION_HANDLER": "students.exceptions.custom_exception_handler"
-
+    "EXCEPTION_HANDLER": "students.exceptions.custom_exception_handler",
 }

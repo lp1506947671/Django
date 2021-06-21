@@ -3,11 +3,11 @@ from django.db import models
 
 # Create your models here.
 class Student(models.Model):
-    name = models.CharField(max_length=100, verbose_name="姓名", help_text="提示文本:账号不能为空！")
-    sex = models.BooleanField(default=True, verbose_name="性别")
-    age = models.IntegerField(verbose_name="年龄")
-    class_num = models.CharField(max_length=5, verbose_name="班级编号")
-    description = models.TextField(max_length=1000, verbose_name="个性签名")
+    name = models.CharField(max_length=100, verbose_name="姓名", help_text="姓名")
+    sex = models.BooleanField(default=True, verbose_name="性别", help_text="性别")
+    age = models.IntegerField(verbose_name="年龄", help_text="年龄")
+    class_num = models.CharField(max_length=5, verbose_name="班级编号", help_text="班级数")
+    description = models.TextField(max_length=1000, verbose_name="个性签名", help_text="描述")
 
     class Meta:
         # 设置表名
